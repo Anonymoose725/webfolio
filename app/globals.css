@@ -1,16 +1,27 @@
 @import "tailwindcss";
 /* new v4 tailwind */
 
-:root {
-    --background: #ffffff;
-    --foreground: #171717;
+
+
+/* explicitly set the default font on <body>, and anywhere a heading is written, opt into the other font per-element */
+@theme inline {
+    --font-sans: var(--font-inter);
+    --font-heading: var(--font-inter);
+
+    /* utility classes: bg-blueprint, text-blueprint-line, border-blueprint-accent */
+    --color-blueprint: #16324F;
+    --color-blueprint-line: #F1EEE5;
+    --color-blueprint-muted: #9FB4C8;
+    --color-blueprint-accent: #F5C242;
+    --color-blueprint-accent-dark: #D9A62E;
 }
 
-@theme inline {
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
-    --font-sans: var(--font-geist-sans);
-    --font-mono: var(--font-geist-mono);
+.bg-blueprint-grid {
+    background-image:
+        /* color mix blends into transparency */
+        linear-gradient(color-mix(in srgb, var(--color-blueprint-line) 15%, transparent) 1px, transparent 1px),
+        linear-gradient(90deg, color-mix(in srgb, var(--color-blueprint-line) 15%, transparent) 1px, transparent 1px);
+    background-size: 32px 32px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,5 +34,4 @@
 body {
     background: var(--background);
     color: var(--foreground);
-    font-family: Arial, Helvetica, sans-serif;
 }

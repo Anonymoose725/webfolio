@@ -3,8 +3,6 @@ import Link from "next/link";
 import "./globals.css";
 import { Lora, Inter } from "next/font/google";
 
-
-
 const lora = Lora({
     variable: "--font-lora",
     weight: "400",
@@ -18,21 +16,32 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-    title: "Ethan Gat Webfolio",
+    title: "Webfolio",
     description: "A web portfolio demonstrating Ethan Gat's work",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en">
-            <body>
-                <nav className="flex gap-4 p-4">
-                    <Link href="/">Home</Link>
-                    <Link href="/about">About</Link>
-                    <Link href="/projects">Projects</Link>
-                    <Link href="/logs">Logs</Link>
+        // put variables for fonts on html, register them as tailwind theme values in globals.css
+        <html lang="en" className={`${inter.variable} ${lora.variable}`}>
+            <body className="bg-blueprint text-blueprint-line font-sans">
+                <nav className="flex items-center justify-between border-b border-blueprint-muted px-8 py-5">
+                    <Link href="/" className="text-sm tracking-widest">
+                        WEBFOLIO - E. GAT
+                    </Link>
+                    <div className="flex items-center gap-6 text-sm tracking-widest">
+                        <Link href="/about" className="transition-colors hover:text-blueprint-accent">
+                            ABOUT
+                        </Link>
+                        <Link href="/projects" className="transition-colors hover:text-blueprint-accent">
+                            PROJECTS
+                        </Link>
+                        <Link href="/logs" className="transition-colors hover:text-blueprint-accent">
+                            LOGS
+                        </Link>
+                    </div>
                 </nav>
-                {children}
+                <main>{children}</main>
             </body>
         </html>
     );
