@@ -1,61 +1,61 @@
-import { DimensionDivider } from "../ui/dimension-divider";
-import { DrawingPanel } from "../ui/drawing-panel";
+import { DimensionDivider } from "@/app/ui/dimension-divider";
+import { DrawingPanel } from "@/app/ui/drawing-panel";
+import { GitBranch, User, Mail } from 'lucide-react';
 
 export default function AboutPage() {
     return (
         <div className="bg-blueprint-grid">
-
-            {/* About blurbs */}
-            <section className="mx-auto max-w-2xl px-8 py-16">
+            <section className="mx-auto max-w-5xl px-8 py-16">
                 <DimensionDivider label="FIG. 02 - ABOUT" />
                 <h1 className="mt-6 mb-8 font-heading text-5xl font-bold tracking-wide">
                     ABOUT
                 </h1>
 
-                <div className="space-y-6 text-lg text-blueprint-line">
-                    <p>
-                        Placeholder - who I am and what I study. Similar tone to homepage tagline, but with room to breathe.
-                    </p>
-                    <p>
-                        Placeholder - the story paragraph. How I got into CS, what pulled me into the kind of projects I build.
-                    </p>
-                    <p>
-                        Placeholder - current focus, what kind of role I'm looking for, doubling as a call-to-action
-                    </p>
-                </div>
-            </section>
+                <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_260px]">
+                    {/* Main content */}
+                    <div className="max-w-prose space-y-6 text-lg text-blueprint-line">
+                        <p>
+                            Placeholder - who I am and what I study. Similar tone to homepage tagline, but with room to breathe.
+                        </p>
+                        <p>
+                            Placeholder - the story paragraph. How I got into CS, what pulled me into the kind of projects I build.
+                        </p>
+                        <p>
+                            Placeholder - current focus, what kind of role I'm looking for, doubling as a call-to-action
+                        </p>
+                    </div>
 
-            {/* Background */}
-            <section className="mx-auto max-w-2xl px-8 py-8">
-                <DrawingPanel label="BACKGROUND">
-                    <p>
-                        Placeholder - school, major, current year
-                    </p>
-                </DrawingPanel>
-            </section>
+                    {/* Sidebar rail */}
+                    <div className="space-y-8 lg:sticky lg:top-8 lg:self-start">
+                        <DrawingPanel label="BACKGROUND">
+                            <p className="text-sm text-blueprint-muted">
+                                Placeholder - school, major, current year
+                            </p>
+                        </DrawingPanel>
 
-            {/* Focus */}
-            <section className="mx-auto max-w-2xl px-8 py-8">
-                <DrawingPanel label="FOCUS">
-                    <p>
-                        Placeholder - a few areas i'm currently interested in
-                    </p>
-                </DrawingPanel>
-            </section>
+                        <DrawingPanel label="FOCUS">
+                            <p className="text-sm text-blueprint-muted">
+                                Placeholder - a few areas i'm currently interested in
+                            </p>
+                        </DrawingPanel>
 
-            {/* TEST EDITING PY TO SEE WHAT HAPPENS */}
-            <section className="mx-auto max-w-2xl px-8 py-12">
-                <DimensionDivider label="LINKS" />
-                <div className="mt-6 flex flex-wrap gap-6 text-sm">
-                    <a href="https://github.com/Anonymoose725" className="text-blueprint-accent hover:underline">
-                        GitHub
-                    </a>
-                    <a href="https://linkedin.com/ethan-gat" className="text-blueprint-accent hover:underline">
-                        LinkedIn
-                    </a>
-                    <a href="mailto:ethangat725@gmail.com" className="text-blueprint-accent hover:underline">
-                        Email Me!
-                    </a>
+                        <DrawingPanel label="LINKS">
+                            <div className="flex flex-col gap-3 text-sm">
+                                <a href="https://github.com/Anonymoose725" target="_blank" className="flex items-center gap-2 text-blueprint-accent hover:underline">
+                                    <GitBranch size={16} aria-hidden="true" />
+                                    GitHub
+                                </a>
+                                <a href="https://linkedin.com/in/ethan-gat" target="_blank" className="flex items-center gap-2 text-blueprint-accent hover:underline">
+                                    <User size={16} aria-hidden="true" />
+                                    LinkedIn
+                                </a>
+                                <a href="mailto:ethangat725@gmail.com" target="_blank" className="flex items-center gap-2 text-blueprint-accent hover:underline">
+                                    <Mail size={16} aria-hidden="true" />
+                                    Email Me!
+                                </a>
+                            </div>
+                        </DrawingPanel>
+                    </div>
                 </div>
             </section>
         </div>
