@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         // put variables for fonts on html, register them as tailwind theme values in globals.css
         <html lang="en" className={`${inter.variable} ${lora.variable}`}>
-            <body className="bg-blueprint text-blueprint-line font-sans">
+            <body className="min-h-screen bg-blueprint bg-blueprint-grid text-blueprint-line font-sans">
                 <nav className="flex items-center justify-between border-b border-blueprint-muted px-8 py-5">
                     <Link href="/" className="text-sm tracking-widest">
                         WEBFOLIO - E. GAT

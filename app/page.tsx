@@ -24,7 +24,7 @@ const projects = [
 
 export default function Page() {
     return (
-        <div className="bg-blueprint-grid">
+        <div>
 
             {/* Big name + project link  + image */}
             <section className="mx-auto max-w-2xl px-8 py-16">
@@ -49,7 +49,7 @@ export default function Page() {
                     {/* image */}
                     <div className="relative shrink-0 border border-blueprint-muted p-2">
                         <span className="absolute -top-3 left-4 bg-blueprint px-2 text-xs tracking-widest text-blueprint-muted">
-                            My cat, Socrates
+                            CAT.png
                         </span>
                         <Image
                             src="/images/cat.jpeg"
@@ -65,7 +65,7 @@ export default function Page() {
 
             {/* "notes" */}
             <section className="mx-auto max-w-2xl px-8 py-8">
-                <DrawingPanel label="Notes">
+                <DrawingPanel label="NOTES">
                     <p>
                         Third-year CS student focused on algorithms, developer tools, and project-based work.
                     </p>
