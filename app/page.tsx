@@ -42,22 +42,20 @@ export default function Page() {
                             href="/projects"
                             className="inline-flex items-center gap-2 border border-blueprint-accent px-5 py-2 text-sm tracking-widest text-blueprint-accent transition-colors hover:bg-blueprint-accent hover:text-blueprint"
                         >
-                            View Projects
+                            VIEW PROJECTS
                         </Link>
                     </div>
 
                     {/* image */}
                     <div className="relative shrink-0 border border-blueprint-muted p-2">
                         <span className="absolute -top-3 left-4 bg-blueprint px-2 text-xs tracking-widest text-blueprint-muted">
-                            Me
+                            My cat, Socrates
                         </span>
                         <Image
-                            src="/images/profile.jpeg"
-                            alt="Ethan"
-                            // width={2048}
-                            // height={1536}
-                            width={400}
-                            height={400}
+                            src="/images/cat.jpeg"
+                            alt="Socrates, my cat"
+                            height={320}
+                            width={320}
                             priority
                             className="object-cover"
                         />
