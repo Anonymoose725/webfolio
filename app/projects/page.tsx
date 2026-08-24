@@ -16,10 +16,10 @@ const projects = [
         href: "https://github.com/Anonymoose725/algo-visualizer",
     },
     {
-        title: "Webfo2lio",
-        blurb: "It's a website AND a portfolio. How is this possible??",
-        tags: ["test", "test"],
-        href: "google.com",
+        title: "Single-Cycle MIPS Processor",
+        blurb: "A processor designed in Logisim Evolution to execute instructions through the MIPS architecture datapath in a single clock cycle",
+        tags: ["MIPS", "Assembly", "CPU", "Logisim"],
+        href: "https://github.com/Anonymoose725/mips-single-cycle",
     },
 ];
 
