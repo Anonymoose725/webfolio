@@ -41,7 +41,7 @@ export function ProjectEntry({ project, index }: { project: Project, index: numb
                     <p className="mb-3 text-sm text-blueprint-muted">{project.blurb}</p>
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs tracking-widest">
                         <span className="text-blueprint-accent">{project.tags.join(', ')}</span> {/* join tags by comma seperation */}
-                        <a href={project.href} target="_blank" className="inline-flex items-center gap-1 hover:underline">
+                        <a href={project.href} target="_blank" className="inline-flex items-center gap-1 text-blueprint-accent-red hover:underline">
                             VIEW REPOSITORY <ArrowUpRight size={12} />
                         </a>
                     </div>
