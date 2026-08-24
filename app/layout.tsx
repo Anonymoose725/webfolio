@@ -16,8 +16,14 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-    title: "Webfolio",
-    description: "A web portfolio demonstrating Ethan Gat's work",
+    metadataBase: new URL("https://webfolio-delta.vercel.app/"), // vercel URL
+    title: "Ethan Gat Webfolio",
+    description: "A web portfolio demonstrating Ethan Gat's projects and blogs",
+    openGraph: {
+        title: "Ethan Gat Webfolio",
+        description: "A web portfolio demonstrating Ethan Gat's projects and blogs",
+        siteName: "Ethan Gat Webfolio"
+    }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
