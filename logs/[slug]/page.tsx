@@ -2,7 +2,7 @@ import { Suspense } from 'react'; // loading skeleton component to display until
 import { MDXRemote } from 'next-mdx-remote-client/rsc';
 import rehypePrettyCode from 'rehype-pretty-code';
 import { getPostSource } from '@/lib/posts';
-import { mdxComponents } from './mdx-components';
+import { mdxComponents } from '../mdx-components';
 
 export default async function LogPost({ params }: { params: { slug: string } }) {
     const src = getPostSource(params.slug);
