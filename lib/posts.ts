@@ -36,7 +36,9 @@ export function getAllPosts(): PostMeta[] {
 
 export function getPostSource(slug: string): string { // retrieve source from slug
     const filePath = path.join(postsDir, `${slug}.mdx`);
-    return fs.readFileSync(filePath, 'utf8');
+    const rawContents = fs.readFileSync(filePath, 'utf8');
+    const { content } = matter(rawContents); // strip fontmatter after parsing
+    return content;
 }
 
 
