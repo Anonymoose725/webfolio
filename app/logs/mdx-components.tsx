@@ -12,8 +12,8 @@ export const mdxComponents = {
     a: (props: any) => (
         <a target="_blank" className="text-blueprint-accent hover:underline" {...props} />
     ),
-    codeBlock: (props: any) => (
-        <code className="text-sm text-blueprint-accent-red " {...props} />
+    code: (props: any) => (
+        <code className="text-md text-blueprint-accent-red" {...props} />
     )
 };
 
