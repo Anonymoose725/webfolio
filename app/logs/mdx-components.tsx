@@ -10,10 +10,10 @@ export const mdxComponents = {
         <p className="mb-4 text-blueprint-line" {...props} />
     ),
     a: (props: any) => (
-        <a className="text-blueprint-accent hover:underline" />
+        <a target="_blank" className="text-blueprint-accent hover:underline" {...props} />
     ),
     codeBlock: (props: any) => (
-        <code className="text-sm text-blueprint-accent-red" {...props} />
+        <code className="text-sm text-blueprint-accent-red " {...props} />
     )
 };
 
