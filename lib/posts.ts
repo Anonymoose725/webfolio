@@ -21,7 +21,12 @@ export function getAllPosts(): PostMeta[] {
         return {
             slug,
             title: data.title as string, // type strict
-            date: data.date as string,
+            // date: data.date as string,
+            date: new Date(data.date).toLocaleDateString('en-US', { // needed to format properly for gray-matter
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            }),
             summary: data.summary as string
         };
     });

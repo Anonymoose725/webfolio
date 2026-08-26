@@ -6,8 +6,9 @@ import { mdxComponents } from '../mdx-components';
 
 // each mdx is rendered on the page with this component
 
-export default async function LogPost({ params }: { params: { slug: string } }) {
-    const src = getPostSource(params.slug);
+export default async function LogPost({ params }: { params: Promise<{ slug: string }> }) { // slug is a promise, like Maybe in haskell
+    const { slug } = await params; // must await a promise
+    const src = getPostSource(slug);
 
     return (
         <article className="mx-auto max-w-prose px-8 py-16 text-blueprint-line">
