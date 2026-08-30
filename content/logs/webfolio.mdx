@@ -1,0 +1,74 @@
+---
+title: The Website & Architecture
+date: 2026-08-30
+summary: Details regarding the website architecture choices and explanation
+---
+
+## Why build it this way?
+
+Unlike the Haskell [algorithm visualizer](https://algo-visualizer-frontend-six.vercel.app/) I made, the explicit goal of
+building this website is to serve as a learning experience for leveraging tools and libraries instead of reinventing them.
+
+I argue that learning to use the existing tools regularly employed in an industry is as important if not more than creating them.
+As a software engineer it is necessary to understand how to learn new tools as well, as they appear.
+
+Additionally, this site serves as a portfolio to showcase my projects, attempts, lessons learned, and outward thinking in the form
+of project cards and logs (blog posts).
+
+
+## App Routing
+
+**Next.js** is my router of choice. It is an [app router](https://stackoverflow.com/questions/76570208/what-is-different-between-app-router-and-pages-router-in-next-js), 
+contrasting the traditionally used page router. App routers are arguably the future of website building, with a focus on
+server priority over client-side routing. This means performance and compatability are generally improved over page-routing, where
+there may be some added complexity, *though this comes with added flexibility, too*. App routing allows for pages to be routed by the
+file directory, as follows:
+
+```text
+app/
+├── layout.tsx
+├── page.tsx
+├── about/
+│   └── page.tsx
+├── projects/
+│   └── page.tsx
+├── logs/
+│   ├── page.tsx
+│   ├── mdx-components.tsx
+│   └── [slug]/
+│       └── page.tsx
+└── ui/
+    ├── dimension-divider.tsx
+    ├── drawing-panel.tsx
+    └── project-entry.tsx
+    ...
+```
+
+## Styling
+
+Styling is done with **Tailwind v4**. If I had used regular CSS, I would be writing seperate CSS files and hand-naming classes such as
+.card, .hero-section, etc. With Tailwind, pre-made [utility classes](https://tailwindcss.com/docs/styling-with-utility-classes)
+allow me to apply a specific style to a specific HTML element, all without making a file and naming the specific style.
+
+I can create my own utility classes automatically. Using `@theme inline` in `globals.css`, utility classes are made for me
+using my custom CSS properties. For example:
+
+```css
+@theme inline {
+    --font-sans: var(--font-inter);
+    --font-heading: var(--font-inter);
+
+    /* utility classes: bg-blueprint, text-blueprint-line
+    border-blueprint-accent */
+    --color-blueprint: #16324F;
+    --color-blueprint-line: #F1EEE5;
+    --color-blueprint-muted: #9FB4C8;
+    --color-blueprint-accent: #F5C242;
+    --color-blueprint-accent-dark: #D9A62E;
+    --color-blueprint-accent-red: #DF534A;
+}
+```
+
+Here, I am automatically creating utility classes for fonts and the blueprint themed colours site-wide. Now instead of
+referring to a specific file and a specific variable that I'd have to name myself, I can simply do the following. This is a snippet
+of the ProjectEntry component, seen in thepage.
