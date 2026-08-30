@@ -72,3 +72,62 @@ using my custom CSS properties. For example:
 Here, I am automatically creating utility classes for fonts and the blueprint themed colours site-wide. Now instead of
 referring to a specific file and a specific variable that I'd have to name myself, I can simply do the following. This is a snippet
 of the ProjectEntry component, seen in the [projects](/projects) page.
+
+```tsx {1,3}
+<div className="border border-blueprint-muted p-4 transition-colors hover:border-blueprint-accent">
+  <div className="flex items-center gap-4">
+    <span className="text-xs tracking-widest text-blueprint-muted">
+      0{index + 1}
+    </span>
+    <h3 className="font-heading font-bold tracking-wide">
+      {project.title.toUpperCase()}
+    </h3>
+    <span className="ml-auto text-xs tracking-widest text-blueprint-accent">
+      {project.tags[0]}
+    </span>
+  </div>
+
+  <a href={project.href} className="text-blueprint-accent-red hover:underline">
+    VIEW REPOSITORY
+  </a>
+</div>
+```
+Both `border-blueprint-muted` and `text-blueprint-muted` come from the same `--color-blueprint-muted` variable, meaning a
+single property derived two different utility prefixes for the colour blueprint-muted. 
+
+
+## MDX
+
+For information on **MDX**, the markdown format with support for inline React component rendering, read [this blog](/logs/what-why-how-mdx)!
+
+
+## Supabase
+
+This part of the stack is in-progress and not yet build. This blog will be updated to reflect architecture changes.
+
+
+## Vercel
+
+**Vercel** is the deploy pipeline, which maintains CI/CD. Vercel allows for fast deployment from a GitHub repository and
+automatically detects new stable builds without setup or complex configuration. It generates a unique URL for working builds
+to be previewed live for each pull request so that contributors can test changes as they are integrated. Additionally, Vercel
+are the developers and maintainers of Next.js, and therefore offer optimizations for React and especially Next.js apps such as this
+very website. Vercel is free for personal projects / non-commercial solutions.
+
+
+## Design and Decisions
+
+First, the site utilises components that can be reused as much as possible. This has multiple benefits, including but not limited to:
+1. Website design language remains consistent and repeated with reuse
+2. Components are modular, so changing one component affects all related ones positively
+3. Props allow for a predictable data flow, in a single direction from child to parent
+
+Next, the use of `use client` at the head of some files is necessary where placed. By default, Next.js components are server components. 
+This gives all the benefits previously mentioned [above](#app-routing). However, in some cases, this is not possible. Namely, when
+a component requires the use of React hooks and event listeners such as useState or onClick (i.e. input or info from the user), 
+components *must* be client-side. To manually employ the `use client` directive, it is written at the top of these respective component files.
+
+Lastly, what is next for the website? Blogs will be uploaded as content/logs/... for the time being in MDX files, but this is soon to
+change. With a migration to Supabase, files will be accessed from an SQL database (PostgreSQL), moving projects off of a hard-coded array.
+
+If you are interested in my other projects, [check them out](/projects).
