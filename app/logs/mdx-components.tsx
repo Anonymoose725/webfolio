@@ -1,6 +1,7 @@
 // exports for mdx logs
 import { DrawingPanel } from "../ui/drawing-panel";
 import { ProjectEntry } from "../ui/project-entry";
+import Link from "next/link";
 
 export const mdxComponents = {
     // custom component map for export! mdx override
@@ -13,9 +14,24 @@ export const mdxComponents = {
         <p className="mb-4 text-blueprint-line" {...props} />
     ),
     // hyperlinks
-    a: (props: any) => (
-        <a target="_blank" className="text-blueprint-accent hover:underline" {...props} />
-    ),
+    // conditional : if app routing internally, refer to respective page.tsx
+    // otherwise, refer to external url
+    // this way, all links regardless of source appear in mdx as [text here](link here).
+    a: ({ href, children, ...props }: any) => {
+        const isInternal = href?.startsWith('/');
+        if (isInternal) {
+            return (
+                <Link href={href} className="text-blueprint-accent hover:underline">
+                    {children}
+                </Link>
+            );
+        }
+        return (
+            <a href={href} target="_blank" className="text-blueprint-accent hover:underline" {...props}>
+                {children}
+            </a>
+        );
+    },
     // preformated text
     pre: (props: any) => (
         <pre className="mb-4 overflow-x-auto rounded border border-blueprint-muted p-4 text-sm" {...props} />
