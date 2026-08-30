@@ -13,6 +13,13 @@ export const mdxComponents = {
     p: (props: any) => (
         <p className="mb-4 text-blueprint-line" {...props} />
     ),
+    // for ordered and unordered lists in mdx as html components
+    ol: (props: any) => (
+        <ol className="mb-4 list-decimal space-y-1 pl-6 text-blueprint-line" {...props} />
+    ),
+    ul: (props: any) => (
+        <ul className="mb-4 list-disc space-y-1 pl-6 text-blueprint-line" {...props} />
+    ),
     // hyperlinks
     // conditional : if app routing internally, refer to respective page.tsx
     // otherwise, refer to external url
