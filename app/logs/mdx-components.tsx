@@ -18,7 +18,7 @@ export const mdxComponents = {
     ),
     // preformated text
     pre: (props: any) => (
-        <pre className="mb-4 overflow-x-auto rounded border border-blueprint-muted p-4 text-sm"> {...props} </pre>
+        <pre className="mb-4 overflow-x-auto rounded border border-blueprint-muted p-4 text-sm" {...props} />
     ),
     // triple-backtick code blocks
     code: (props: any) => (
