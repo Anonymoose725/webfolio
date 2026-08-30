@@ -17,6 +17,11 @@
     --color-blueprint-accent-red: #DF534A;
 }
 
+[data-highlighted-line] {
+    background-color: color-mix(in srgb, var(--color-blueprint-accent) 15%, transparent);
+    border-left: 2px solid var(--color-blueprint-accent);
+}
+
 .bg-blueprint-grid {
     background-image:
         /* color mix blends into transparency */
