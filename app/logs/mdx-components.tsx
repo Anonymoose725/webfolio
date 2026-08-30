@@ -1,7 +1,7 @@
 // exports for mdx logs
 
 export const mdxComponents = {
-    // custom component map for export!
+    // custom component map for export! mdx override
     // without this, mdx wouldnt match the site's design, in an unstyled browser default for markdowns
     h2: (props: any) => (
         <h2 className="mt-10 mb-4 font-heading text-2xl font-bold tracking-wide" {...props} /> // note ... forwards all props over
