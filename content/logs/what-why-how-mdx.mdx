@@ -1,5 +1,5 @@
 ---
-title: What/Why/How MDX 
+title: What/Why/How MDX? 
 date: 2026-08-25
 summary: Notes on setting up the MDX pipeline for portfolio logs
 ---
@@ -7,17 +7,45 @@ summary: Notes on setting up the MDX pipeline for portfolio logs
 ## What is MDX?
 
 According to [their documentation](https://mdxjs.com/docs/what-is-mdx/), MDX is modern file format which
-*"allows you to use JSX in your markdown content."*
+*"allows you to use JSX in your markdown content."* Compared to regular markdown, this means that custom React components 
+can be included and rendered fully within the MDX page.
 
-Here's a small sample below to confirm the syntax is working
+Here's a small sample below to showcase. This TypeScript code-block is rendered as a React component with Tailwind CSS styling via
+Next.js, but it is rendered not as a component between parts of this markdown file but rather a part of the MDX itself.
 
 ```ts
 const isWorking = true;
+const message = "Hello, world!"
 ```
 
 ## Why MDX?
 
-MDX allows me to take advantage of both the simplicity and formatting of markdown files and the customization and
-flexbility of react components, while being nativge to this webapp.
+For this site specifically, discussion in blog posts may involve source code, callouts matching the site style, and snippets of
+working React components that may allow interactivity with the reader. This is simply not possible in regular plain-text / markdown.
+An example is the DrawingPanel component, now usable **inside** this very post rather than just on regular pages.
+
+##
+<DrawingPanel label="See here!">
+    This callout is the exact same component used on the projects page. Regular markdown continues below, without any special work done.
+</DrawingPanel>
+##
+
+This is an example of differentiates this site from my previously made website, the Haskell based 
+[algorithm visualizer](https://algo-visualizer-frontend-six.vercel.app/). Rather than write a fully-from-scratch solution, 
+I can lean on a ready-made and community developed product like MDX and next-mdx-remote-client instead of reinventing the wheel.
+
 
 ## How does MDX work?
+
+/content/logs/ holds raw .mdx files, which are deliberately held seperate from apps/ so the files are treated as content and not pages to
+be routed to by my app router of choice, Next.js. [Gray-matter](https://github.com/jonschlinkert/gray-matter) is a YAML-parser
+that parses the fontmatter block of an MDX file (the title, date, and summary metadata that is invisible to a viewer).
+[Next-mdx-remote-client](https://github.com/ipikuka/next-mdx-remote-client) actually renders the MDX files at request time to be seen by the
+user in the viewport as you are seeing now. A custom component override makes headings, paragraphs, links, code blocks, and other components
+match the style choices of my website instead of plain-text or defaults, and lastly [rehype-pretty-code](https://github.com/rehype-pretty/rehype-pretty-code)
+and [shiki](https://github.com/shikijs/shiki) handle syntax highlighting for code blocks.
+
+
+##
+
+To learn more about markdown formatting and rendering, read the [markdown guide](https://www.markdownguide.org/).
