@@ -11,6 +11,25 @@ export type PostMeta = {
     summary: string
 };
 
+// date formatter 
+function formatDate(rawDate: string): string {
+    return new Date(rawDate).toLocaleDateString('en-US', {
+        year: "numeric",
+        month: "short",
+        day: "numeric"
+    })
+}
+
+export function getPostMeta(slug: string) {
+    const filePath = path.join(postsDir, `${slug}.mdx`);
+    const raw = fs.readFileSync(filePath, 'utf8');
+    const { data } = matter(raw);
+    return {
+        title: data.title as string,
+        date: formatDate(data.date)
+    }
+}
+
 export function getAllPosts(): PostMeta[] {
     const files = fs.readdirSync(postsDir).filter((f) => f.endsWith('.mdx')); // read contents of directory, only read .mdx
 
