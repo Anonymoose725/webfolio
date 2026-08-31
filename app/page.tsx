@@ -17,7 +17,7 @@ const projects = [
     },
     {
         title: "Webfolio",
-        blurb: "This very site. Created as a learning experience for using libraries and tools for web development.",
+        blurb: "This very site, created as a learning experience for using libraries and tools for web development.",
         tags: ["Next.js", "Tailwind", "MDX"],
     },
 ];
