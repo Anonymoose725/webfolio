@@ -1,6 +1,7 @@
 // exports for mdx logs
 import { DrawingPanel } from "../ui/drawing-panel";
 import { ProjectEntry } from "../ui/project-entry";
+import { DemoFrame } from "../ui/demoFrame";
 import Link from "next/link";
 
 export const mdxComponents = {
@@ -48,6 +49,7 @@ export const mdxComponents = {
         <code className="text-md text-blueprint-accent-red" {...props} />
     ),
     DrawingPanel,
-    ProjectEntry
+    ProjectEntry,
+    DemoFrame
 };
 

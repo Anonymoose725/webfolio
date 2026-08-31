@@ -1,0 +1,100 @@
+---
+title: Haskell Algorithm Visualizer
+date: 2026-07-25
+summary: What the HAV is and why I chose to make it
+---
+
+## What it is
+
+The Haskell Algorithm Visualizer (HAV) is a full-stack web app which animates step-by-step traces of classical
+algorithms commonly found in the academic study of Computer Science. It covers bubble sort, mergesort, Intesertion sort,
+Dijkstra's shortest path, depth-first search, and binary search trees.
+
+The HAV is multi-paradigm, with a functional backend and an interactive frontend. 
+
+## Why is the backend written in functional Haskell?
+
+Haskell is a (purely) functional programming language with lazy evaluation and strong static typing. Functions written
+in Haskell return the same provable output for every call and contain no mutable states, unlike most programming languages.
+
+In class, I learned OCaml - a similar language in that it is also functional rather than imperative. In an academic setting,
+we used *proofs by induction* to show correctness of the outputs of naturally recursive algorithms. I engaged with this style
+of verifiable programming and decided to learn Haskell on my own. 
+
+You can see how Haskell naturally presents itself in the structure of an inductive proof. Typically, there is a base case (or multiple), 
+an inductive step / recursive call, and termination.
+
+```haskell {3,4,5}
+-- an example of fibonacci, with base cases and recursive call
+fib :: Int -> Int
+fib 0 = 0
+fib 1 = 1
+fib n = fib (n-1) + fib (n-2)
+```
+
+Self referential recursive datatypes are also conveniently created (and lazily evaluated).
+
+```haskell
+data BTree a = Empty | Node a (BTree a) (BTree a)
+```
+
+Haskell serves as an intuitive match for this algorithm visualizer. An algorithm's execution is naturally a sequence of distinct
+decision-making kinds of events (a comparison, a swap, or in Dijkstra's case a relaxation of an edge). Each event contains different data.
+In Haskell, this maps onto a type:
+
+```haskell
+data Step
+    = compare Int Int
+    | Swap Int Int
+    | Visit
+    | Relax Int Int Double
+```
+
+
+## Architecture
+
+Servant runs on the backend. [Servant](https://www.servant.dev/) is a Haskell package for declaring a web API as a single type. Naturally,
+this extends the utility and features we love about Haskell into APIs, namely type-safety. When an instance of our Step type is generated
+by our step-generating functions, we aim to represent these traces as JSON for the React frontend to consume. Here you can see how a
+standard URL is mimicked as a Haskell type. The `:<|>` character, represents the choices for an API endpoint. In this example, you can see
+our API can either serve bubble sort, merge sort, or insertion sort. QueryParam parses URL strings, in this case the input array of integers.
+
+```haskell
+type AlgAPI =
+  "sort" :> "bubble" :> QueryParam "input" String :> Get '[JSON] [Step] -- :<|> is or
+    :<|> "sort" :> "merge" :> QueryParam "input" String :> Get '[JSON] [Step]
+    :<|> "sort" :> "insertion" :> QueryParam "input" String :> Get '[JSON] [Step]
+    -- ...
+```
+
+Our type is then serialized into JSON. Type instances appear like records. An instance of the earlier defined Step type might be as
+follows. In this case, the numbers 3 and 7 (or maybe numbers at indicies 3 and 7) are being compared.
+
+```json
+{
+    "tag": "Compare",
+    "contents": [3, 7]
+}
+```
+
+
+## Challenges
+
+Throughout the backend half of the project, I encountered problems resolving the correct steps and translating each algorithm to Haskell.
+For example, reconstructing the correct full array state at every recursive step of merge sort proved to be difficult. In order to
+effectively demonstrate the operations of mergesort, the full array had to be pictured at any given moment with context. Broken implementations
+resulted in duplicate elements, disappearing, or showing wrong immediate states. The solution involved threading five pieces of state
+simultaneously:
+
+```haskell
+let newAcc = x : acc -- x merged
+              mergedSoFar = reverse newAcc -- reverse more efficient than acc ++ [x]
+              remaining = xs ++ (y : ys)
+              mergedSlice = mergedSoFar ++ remaining
+
+              rightNow = take lo full ++ mergedSlice ++ drop (hi + 1) full
+              -- ...
+```
+
+
+<DemoFrame src="https://algo-visualizer-frontend-six.vercel.app/" height={700} />
