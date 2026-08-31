@@ -13,12 +13,12 @@ const projects = [
     {
         title: "Haskell Algorithm Visualizer",
         blurb: "An algorithm visualizer with a backend written in Haskell.",
-        tags: ["Haskell", "Servant", "React", "DSA"],
+        tags: ["Haskell", "DSA", "React"],
     },
     {
         title: "Webfolio",
-        blurb: "It's a website AND a portfolio. How is this possible??",
-        tags: ["AAA", "AAAA", "AAAAAAAAAA"],
+        blurb: "This very site. Created as a learning experience for using libraries and tools for web development.",
+        tags: ["Next.js", "Tailwind", "MDX"],
     },
 ];
 
