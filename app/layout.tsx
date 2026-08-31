@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
 import { Lora, Inter } from "next/font/google";
+import { Home } from "lucide-react";
 
 const lora = Lora({
     variable: "--font-lora",
@@ -32,8 +33,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang="en" className={`${inter.variable} ${lora.variable}`}>
             <body className="min-h-screen bg-blueprint bg-blueprint-grid text-blueprint-line font-sans">
                 <nav className="flex items-center justify-between border-b border-blueprint-muted px-8 py-5">
-                    <Link href="/" className="text-sm tracking-widest">
-                        WEBFOLIO - E. GAT
+                    <Link href="/" className="flex items-center gap-2 text-sm tracking-widest">
+                        <Home size={16} aria-hidden="true" />
+                        WEBFOLIO - Ethan Gat
                     </Link>
                     <div className="flex items-center gap-6 text-sm tracking-widest">
                         <Link href="/about" className="transition-colors hover:text-blueprint-accent">
