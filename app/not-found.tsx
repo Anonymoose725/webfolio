@@ -6,7 +6,7 @@ export default function NotFound() {
         <div className="mx-auto max-w-2xl px-8 py-24 text-center">
             {/* <DimensionDivider label="ERROR 404: NOT FOUND" /> */}
             <h1 className="mt-6 mb-4 font-heading text-6xl font-bold tracking-wide">
-                404
+                404 :(
             </h1>
             <p className="mb-8 text-blueprint-muted">
                 This page doesn't exist. Check the URL, or head back home.
