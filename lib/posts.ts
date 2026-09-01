@@ -40,17 +40,15 @@ export function getAllPosts(): PostMeta[] {
         return {
             slug,
             title: data.title as string, // type strict
-            // date: data.date as string,
-            date: new Date(data.date).toLocaleDateString('en-US', { // needed to format properly for gray-matter
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-            }),
-            summary: data.summary as string
+            summary: data.summary as string,
+            date: formatDate(data.date),
+            _sortValue: new Date(data.date).getTime() // a timestamp for sort only, never returned
         };
     });
 
-    return posts.sort((a, b) => (a.date < b.date ? 1 : -1)); // return posts as array of slugs and metadata
+    // sort: newest first, using actual date
+    // map: remove _sortValue before returning
+    return posts.sort((a, b) => b._sortValue - a._sortValue).map(({ _sortValue, ...meta }) => meta);
 }
 
 export function getPostSource(slug: string): string { // retrieve source from slug
