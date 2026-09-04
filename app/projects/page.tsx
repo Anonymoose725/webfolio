@@ -7,7 +7,7 @@ const projects = [
         title: "Webfolio",
         blurb: "This site: a Next.js framework portfolio to showcase my projects and thoughts in logs. Created to learn how to use external libraries and devtools.",
         tags: ["Next.js", "TailwindCSS", "Supabase", "Markdown"],
-        href: "https://www.google.com",
+        href: "https://github.com/Anonymoose725/webfolio",
     },
     {
         title: "Haskell Algorithm Visualizer",
