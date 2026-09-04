@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Webfolio
 
-## Getting Started
+My personal portfolio and blog for, live at [ethangat.com](https://ethangat.com).
 
-First, run the development server:
+Built deliberately as a full-stack learning exercise: my previous personal site was built entirely from scratch in Haskell, with no external libraries. This project takes the opposite approach, intending to lean on modern, well-established tools and libraries intentionally, rather than reinventing them completely from scratch source.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Stack
+
+- **[Next.js](https://nextjs.org)** (App Router) — routing, Server/Client Components
+- **[Tailwind CSS v4](https://tailwindcss.com)** — utility-first styling with a custom design-token system
+- **[MDX](https://mdxjs.com)** via `next-mdx-remote-client` — the blog/writing pipeline, with `gray-matter` for frontmatter and `rehype-pretty-code`/Shiki for syntax highlighting
+- **[Motion](https://motion.dev)** (formerly Framer Motion) — interaction animation
+- **[Supabase](https://supabase.com)** — planned, not yet integrated (see Roadmap)
+- **[Vercel](https://vercel.com)** — deployment, with automatic preview URLs per branch
+
+## Design system
+
+A custom "blueprint" visual identity, with two (so far) reusable components.
+
+- `DimensionDivider` — a labeled section divider styled after technical-drawing dimension lines
+- `DrawingPanel` — a bordered panel with a corner label, used for project cards, callouts, and MDX content blocks alike
+
+## Project structure
+
+```text
+app/
+├── layout.tsx          # shared nav, fonts, global styles
+├── page.tsx            # home
+├── about/
+├── projects/
+├── logs/
+│   ├── page.tsx         # blog index
+│   ├── mdx-components.tsx
+│   └── [slug]/          # individual post pages
+├── ui/                  # DimensionDivider, DrawingPanel, ProjectEntry
+└── not-found.tsx
+content/
+└── logs/                # raw .mdx post files
+lib/
+└── posts.ts             # frontmatter parsing, post retrieval
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Roadmap
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [ ] Light Mode styling
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Author
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Ethan Gat** — [GitHub](https://github.com/Anonymoose725) · [LinkedIn](https://linkedin.com/in/ethan-gat) · [ethangat.com](https://ethangat.com)
