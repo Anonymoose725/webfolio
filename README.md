@@ -1,6 +1,6 @@
 # Webfolio
 
-My personal portfolio and blog for, live at [ethangat.com](https://ethangat.com).
+My personal portfolio and blog, live at [ethangat.com](https://ethangat.com).
 
 Built deliberately as a full-stack learning exercise: my previous personal site was built entirely from scratch in Haskell, with no external libraries. This project takes the opposite approach, intending to lean on modern, well-established tools and libraries intentionally, rather than reinventing them completely from scratch source.
 
