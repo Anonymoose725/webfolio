@@ -11,7 +11,9 @@ import { supabase } from "@/lib/supabase";
 //     },
 // ];
 
-export const revalidate = 3600; // reserved export that forces an update of the page every 1 hour (3600 seconds) when using Next.js's ISR (Incremental Static Regeneration) feature.
+export const revalidate = 3600; 
+// reserved export that forces an update of the page every 1 hour (3600 seconds)
+// this is better than doing a force-dynamic export because that would make the page dynamic and not cacheable, which would be bad for performance and SEO
 
 export default async function ProjectsPage() {
     const { data: projects, error } = await supabase.from("projects").select("*").order("sort_order");
