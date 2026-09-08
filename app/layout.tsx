@@ -17,7 +17,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-    metadataBase: new URL("https://ethangat.com/"), // vercel URL
+    metadataBase: new URL("https://ethangat.com/"),
     title: "Ethan Gat Webfolio",
     description: "A web portfolio demonstrating Ethan Gat's projects and blogs",
     openGraph: {
