@@ -49,11 +49,11 @@ export default function Page() {
                     {/* image */}
                     <div className="relative shrink-0 border border-blueprint-muted p-2">
                         <span className="absolute -top-3 left-4 bg-blueprint px-2 text-xs tracking-widest text-blueprint-muted">
-                            CAT.png
+                            Monteal, Canada
                         </span>
                         <Image
-                            src="/images/cat.jpeg"
-                            alt="Socrates, my cat"
+                            src="/images/handsome_photo.jpg"
+                            alt="Shot on my 35mm Konica"
                             height={320}
                             width={320}
                             priority
