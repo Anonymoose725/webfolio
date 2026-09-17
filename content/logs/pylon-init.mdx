@@ -1,0 +1,40 @@
+---
+title: Pylon, a source code analyser for Python powered by AI
+date: 2026-09-16
+summary: All about Pylon, my idea and initial workings for a tool that makes your code cleaner and smarter
+---
+
+## What it is
+
+Pylon is a *command line interface* (CLI) that combines classic static analysis with a review pass powered by an LLM.
+The base layer walks the abstract syntax tree (AST) of your python source codebase to catch structural issues. These
+can include but are not limited to:
+
+1. Unused imports
+2. Bare excepts
+3. Shadowed variables
+4. Overly complex function structure (nested loops, etc.)
+5. Style violations
+6. Mutable default detection
+7. And many more!
+
+On top of that, the **LLM Layer** reads code that has been flagged by the linter and surrounding file context to
+give the user readable explanations in an interactive manner, suggest potential fixes with human oversight in mind, 
+and catch poor logic that static linting analysis would otherwise miss such as inconsistent style or misleading naming
+schemes.
+
+## Why am I building it?
+
+After starting a Ray Tracer in C++, I wanted something more practical to work on in the mean time, especially something
+that could actually be used / useful rather than simply cool or just technically impressive. A tool like a smart-linter
+has everday utilisation in mind as well as industry relevance, being built in Python. Python is an uncompiled language
+which is versatile and commonly used in scripting, mathematics, and espcially machine learning; fields I'm interested
+in pursuing and making a difference in. I am bringing AI into the stack not just as a "*throw AI into a project*" 
+thing but rather a decision where I believe AI naturally improves the quality of output. 
+
+## Current progress
+
+I have gone ahead and implemented a few rules already, and next I will be implementing a "rule decision machine." More to
+come on additional rules, the LLM integration, CLI tooling, finalising the stack etc. 
+
+P.S: **Pylon** is short for *Python linter & optimization navigator* but that might change...

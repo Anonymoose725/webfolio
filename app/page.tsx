@@ -6,9 +6,9 @@ import { DrawingPanel } from "./ui/drawing-panel";
 // temp projects
 const projects = [
     {
-        title: "32-bit Single Cycle MIPS CPU",
-        blurb: "A single cycle processor with 32 registers written in MIPS assembly",
-        tags: ["MIPS", "Assembly"],
+        title: "Pylon Linter",
+        blurb: "A Python CLI linter with intelligent LLM layer for dynamic analysis for first-pass review.",
+        tags: ["Python", "LLMs", "Devtools"],
     },
     {
         title: "Haskell Algorithm Visualizer",
