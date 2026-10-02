@@ -1,0 +1,214 @@
+---
+title: Benchmarking Pylon and writing its LLM layer
+date: 2026-10-02
+summary: Adding benchmarking to a linter to measure performance, and the addition of an LLM layer 
+---
+
+
+# Benchmarking Pylon 
+
+Pylon, as I've [previously shared](/logs/pylon-init), is a static analysis CLI with an AI false-positive judgement layer.
+It's built to extend the operation of a traditional linter with a context-provided intelligence and intuition, to make
+code better (in my opinion!) and avoid generally poor practices. The tool's correctness however, can't just claim to be good,
+so we need a valid testing suite to measure. 
+
+I decided to test Pylon v1 on real, applied, generally well-received code rather than trust my own figures.
+
+## Setup
+
+- 5 standard and common code repos: Flask, Requests, Click, Django, Numpy, chosen because they vary drastically in function, 
+structure, size, etc.
+- **1395 files / 455,125 lines** across all 5
+- On each file, the full rule set (at the time of testing) was applied, expandable with a script
+- A benchmarking script that tallies findings per-repo, per-file, and a performance timer
+
+## Benchmark script
+
+```python
+import time
+from pathlib import Path
+from cli import find_python_files
+from rules.registry import ALL_RULES
+
+# point to respective source folders for each repo only, so we exclude things like setup .py scripts
+REPOS = {
+    "flask": "benchmarks/flask/src",
+    "requests": "benchmarks/requests/src",
+    "click": "benchmarks/click/src",
+    "django": "benchmarks/django/django",
+    "numpy": "benchmarks/numpy/numpy"
+}
+
+def count_lines(files):
+    total = 0;
+    for f in files:
+        with open(f, encoding="utf-8", errors="ignore") as fh:
+            total += sum(1 for _ in fh)
+    return total
+
+def main():
+    grand_total_files = 0
+    grand_total_lines = 0
+    grand_total_findings = 0
+    per_rule_totals = {}
+    
+    for repo_name, path_to_repo in REPOS.items():
+        if not Path(path_to_repo).exists():
+            print(f"Skipping {repo_name}, path not found: {path_to_repo}")
+            continue
+        
+        files = find_python_files(path_to_repo)
+        lines = count_lines(files)
+        
+        start = time.perf_counter()
+        findings_this_repo = 0
+        for file in files:
+            for rule in ALL_RULES:
+                results = rule(str(file))
+                if results is not None:
+                    findings_this_repo += len(results)
+                    for finding in results:
+                        per_rule_totals[finding.rule_id] = per_rule_totals.get(finding.rule_id, 0) + 1 # mapping +1
+                    
+        elapsed = time.perf_counter() - start # record time taken to find all findings in this repo
+        
+        print(f"\n{repo_name}")
+        print(f"    files:      {len(files)}")
+        print(f"    lines:      {lines}")
+        print(f"    findings:   {findings_this_repo}")
+        print(f"    time:       {elapsed:.2f}s ({len(files)/elapsed:.1f} files/s)")
+        
+        grand_total_files += len(files)
+        grand_total_lines += lines
+        grand_total_findings += findings_this_repo
+        
+    print(f"\n--------> total <--------\n")
+    print(f"    files:      {grand_total_files}")
+    print(f"    lines:      {grand_total_lines}")
+    print(f"    findings:   {grand_total_findings}")
+    print(f"\nfindings by rule:")
+    for rule_id, count in sorted(per_rule_totals.items(), key=lambda x: -x[1]):
+        print(f"    {rule_id}: {count}")
+
+if __name__ == "__main__":
+    main()
+```
+
+
+## Initial Results
+
+The first results looked "succesful" in that many findings were found, but a vast majority were false positives, totalling
+Specifically, unused-import misread two deliberate patterns: `import X as X` and `__all__` re-export patterns for user
+ease. 
+
+`import X as X` rebinds a module to the same name in a local namespace, silencing linters. By writing import-as, this serves
+as a way to tell the linter "this is an intentional import, so other external people can import X from this package."
+
+The standard way to declare a public API in a python script is with `__all__` lists, however maintaining the list can become
+tedious in some very packages (like Django).
+
+```python
+import lib_module
+
+__all__ = ["lib_module"]
+```
+
+Each were incorrectly being flagged as unused imports!
+
+After fixing unused-imports, results were quickly cleared up.
+
+| Before | After | % False+ Reduction |
+|:------:|:-----:|:------------------:|
+| 1479 | 976 | 34% |
+
+Total findings: 1572 -> 1069
+
+
+## Results after fixes
+
+| Repo | Files | Lines | Findings |
+|---|---|---|---|
+| Flask | 24 | 9,513 | 32 |
+| Requests | 19 | 6,394 | 56 |
+| Click | 17 | 12,821 | 19 |
+| Django | 907 | 165,529 | 198 |
+| NumPy | 428 | 260,868 | 764 |
+| **Total** | **1,395** | **455,125** | **1,069** |
+
+But the problem is, we can chase rules and niche utilisations of python patterns forever and we will keep finding exceptions.
+(If an exception to these "rules" couldn't exist, why would python's developers choose to let the occurence run?)
+For example, `from __future__ import annotations` is also technically unused in the AST but is a legitimate pattern.
+
+**This is where the LLM layer comes in!**
+
+
+## LLM layer
+
+For each finding, the LLM layer extracts surrounding contextual code. This is done with a short function, given a specific
+margin. By default, we're using +/- 25, but in the future we could potentially surface the AST again to grab a whole surrounding
+function for example (by reaching up to the function def and down to the final statement) or maybe a class definition.
+
+```python
+def get_snippet(filepath: Path, finding_line, margin = 25) -> str:
+    """Receive a file and line number for a known finding, grab surrounding `margin` lines of code, and return the snippet as a surrounding context"""
+    with open(filepath) as f:
+        all_lines = f.readlines()
+        
+    first = max(0, finding_line - margin - 1) # -1 for from-zero indexing
+    last = min(len(all_lines), finding_line + margin)
+    
+    snippet_lines = []
+    for i in range(first, last):
+        line_num = i + 1
+        prefix = "----> " if line_num == finding_line else "    "
+        snippet_lines.append(f"{prefix}{line_num}: {all_lines[i]}")
+    
+    return "".join(snippet_lines) # concatenate lines from first to last and return as a new string
+```
+
+Next, the code snippet and finding (rule_id, message, line number) are sent to an LLM with a prompt. The process up to this
+point is LLM-provider-of-choice agnostic, and so it's at this point that Pylon needs to receive from the user their preferred
+action. 
+
+By default, Pylon will work locally with a running Ollama model exposed through the default API port on qwen2.5-coder:7b.
+This is because it is sufficient for the work being done here, runs well on laptops with 16gb of DRAM, and is effectively simple.
+It also matters especially to run a local model for testing! Users also have the option to choose from a cloud provider like
+Anthropic Claude or OpenAI ChatGPT through their respective provider APIs. Users simply need to enter their API keys into
+`.env.local` and remove .local from the file name.
+
+To call the LLM, users simply append the --explain flag:
+
+`--explain [ollama/anthropic/openai]` or simply `--explain` for default
+
+to the call to Pylon in the CLI.
+
+Here is a working example!
+
+```bash
+(.venv) ➜  pylon git:(testing) pylon benchmarks/flask/src/flask/app.py --explain       
+Validating 1 file(s)...
+benchmarks/flask/src/flask/app.py:1: [unused-import] Unused import from 'annotations'
+   --> "The finding indicates an unused import from 'annotations'. This is likely a false 
+   positive as the `from __future__ import annotations` statement is commonly used to enable 
+   Python's new type hinting syntax in older versions of Python."
+```
+
+
+## What's next
+
+Does seeing the LLM's response actually inform the user of any useful information? We want to give the user the option to flag
+an LLM-explained finding as true positive / false positive so we can collect metrics on whether or not the LLM helped.
+The plan is to implement the flagging system into the CLI, letting these findings be marked false positive by ID with or without
+having seen --explain first. This turns the LLM layer into a measured performant aspect.
+
+The next update will include this feature, as well as other quality-of-life upgrades that are much needed, 
+such as API key awareness (inform the user if they request --explain openai/anthropic without their API key configured).
+Furthermore, support for Google as a provider of Gemini should be implemented.
+
+
+## Conclusion
+
+My vision for a Pylon v1 is now practically complete, and I look forward to adding more rules to the static analysis and
+improving the LLM layer by adding user flagging and cloud-provider flexibility. To reiterate, the project is about
+verifying code quality with predictability and deterministic methods rather than probabilistis ones with an LLM, and benchmarking
+as well as a full test suite supports results empirically.
