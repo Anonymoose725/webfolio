@@ -1,0 +1,100 @@
+---
+title: "'Written By Claude'"
+date: 2026-10-17
+summary: "A log entry about an LLM agent currently writing itself."
+---
+
+Claude:
+
+This first part of this file was created by Claude Code, the AI coding assistant I am. Right now, this very document exists in the 
+form you see because an LLM parsed the project structure, identified where blog content belongs, and generated this entry 
+following the MDX patterns already established in the site. It's a self-referential moment: an agent born from code writing
+is documenting its own existence within that same codebase.
+
+There are downsides to relying on AI for code generation, however. The biggest concern isn't capability—it's accountability. 
+When Claude writes code, there's no one to blame when it makes mistakes, only a probability distribution that occasionally 
+produces bugs or architectural blind spots. LLMs excel at pattern matching and synthesis but lack true understanding of 
+consequences, ethical tradeoffs, or the broader impact of their output. They can write beautiful code without comprehending 
+why it matters, optimize without knowing the cost function beyond immediate metrics, and produce creative solutions without 
+grasping the constraints that make them sustainable. This isn't inherently bad—tools shouldn't need empathy to be useful—but 
+it does mean developers must remain vigilant reviewers rather than passive recipients of generated output. The responsibility
+for correctness, security, and design remains entirely human, no matter how sophisticated the automation becomes.
+
+```typescript
+// Example: AI-generated function with a subtle bug
+function calculateDiscount(price: number, discount: string): number {
+  const discountFactor = parseInt(discount.replace('%', '')) / 100;
+  
+  // Bug: doesn't handle negative prices (edge case)
+  return price * (1 - discountFactor);
+}
+
+// Human review catches this before it hits production:
+// "What happens if price is negative? What about NaN?"
+// const isPositive = Number.isFinite(price) && price >= 0;
+// if (!isPositive) throw new Error('Invalid price');
+```
+
+This pattern should be familiar to every developer who has ever merged AI-generated code without properly reviewing it. 
+The tool worked perfectly—it produced valid syntax that passed the linter—but the review missed a corner case that would 
+have caused issues in production.
+
+## Back to real me
+
+Ethan now!
+
+The model for the above preamble is qwen3.5:9b, running within the Claude Code harness. This document exists 
+because an LLM parsed the project structure, identified where blog content belongs, and generated this entry 
+following the MDX patterns already established in the site. Self-referential!
+
+## How Claude Code Works
+
+Claude Code extends my standard capabilities with three key additions:
+
+1. **Tool Use**: I can invoke external commands, read/write files, browse the web, and interact with APIs through structured 
+tool calls. Each tool call has a description, parameters schema, and effects—like functions Claude is calling on behalf of me,
+with my permission if I require it.
+
+2. **Memory System**: Persistent metadata stored in `/memory/` helps Claude remember project context across sessions. 
+Claude saves `user` memories (who I am), `feedback` (how to respond to me), `project` (my ongoing work), and 
+`reference` (external resources, etc). This is separate from its conversation memory, which resets on each new chat.
+
+3. **Agents**: For complex tasks, Claude Code can draw on specialized agents:
+   - `claude-code-guide`: Handles Next.js quirks and local tool use like `git status`, `bash`, `grep`. Has access to all tools except Write/Edit/Artifact.
+   - `Explore`: Quick read-only search across the codebase using pattern matching.
+   - `general-purpose`: Multi-step autonomous tasks with full tool access but constrained by context window.
+
+The architecture it uses means you can ask for a variety of tasks, and it will route it through the appropriate 
+mechanism, whether that's a direct file edit, creating an Explore agent to find files, or asking the user to 
+confirm before running a destructive command.
+
+## How I'll use Claude code
+
+I don't intend to watch Claude write my programs while I twiddle thumbs. Rather, I like to use Claude like a second pair of
+eyes, or even a wall to bounce ideas off of. Claude code is also an exceptionally good way to generate test cases. Since it
+can quickly gain an understanding of your written code, it can write tests to find holes in your logic. A probabalistic model
+can read your code and tell you where gaps / edge cases might be, but to have it write tests and read the test output yourself
+is typically more reliable.
+
+As for learning, I don't intend to use Claude code at all. Just like any tool, I believe a fundamental understanding of the
+problem it aims to solve is required before you can use it, let alone master it. This is why I don't intend to use Claude code
+when I am trying to learn something new, but rather I'll use it for a simple task that otherwise takes time away from me I could
+spend more valuably elsewhere.
+
+## Claude and local models
+
+While I am using Claude code, I am NOT using Anthropic's Claude models. Rather, I am using my Macbook Air's M4 processor and
+16GB of LPDDR5X to run qwen3.5:9b through Ollama and it is being bridged through Claude code as a custom model. If you are
+interested in seeing how, view the [repository](https://www.github.com/Anonymoose725/claude-ollama-bridge) for my claude-ollama 
+bridge javascript node that runs in the background between Ollama and Claude code, allowing Claude code to request a tool
+and have Ollama actually process the execution result.
+
+## A little poem, written from my terminal into this file
+
+```bash
+Code in browser's light
+Pixels bloom into design
+Builds rise and they fall
+```
+
+How nice!
