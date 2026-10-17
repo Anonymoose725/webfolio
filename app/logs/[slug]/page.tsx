@@ -4,6 +4,7 @@ import rehypePrettyCode from 'rehype-pretty-code';
 import { getPostSource, getPostMeta } from '@/lib/posts';
 import { mdxComponents } from '../mdx-components';
 import { DimensionDivider } from '@/app/ui/dimension-divider';
+import remarkGfm from 'remark-gfm';
 
 
 export function MDXError({ error }: { error: Error }) {
@@ -40,6 +41,7 @@ export default async function LogPost({ params }: { params: Promise<{ slug: stri
                     onError={MDXError}
                     options={{
                         mdxOptions: {
+                            remarkPlugins: [remarkGfm], // for parsing |, - style tables
                             rehypePlugins: [[rehypePrettyCode, { theme: 'github-dark' }]] // necessasry javascript options for MDXremote
                             // double array -> outer array is list of plugs, inner is rehype options
                         }

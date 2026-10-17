@@ -4,6 +4,7 @@ import { ProjectEntry } from "../ui/project-entry";
 import { DemoFrame } from "../ui/demoFrame";
 import Link from "next/link";
 
+
 export const mdxComponents = {
     // custom component map for export! mdx override
     // without this, mdx wouldnt match the site's design, in an unstyled browser default for markdowns
@@ -48,6 +49,27 @@ export const mdxComponents = {
     code: (props: any) => (
         <code className="text-md text-blueprint-accent-red" {...props} />
     ),
+    // tables with GFM support (style made from |, - syntax)
+    // the wrapper div lets wide tables scroll sideways on devices where the whole table doesnt fit
+    table: (props: any) => (
+        <div className="mb-8 overflow-x-auto">
+            <table className="w-full border-collapse text-sm" {...props} />
+        </div>
+    ),
+    thead: (props: any) => ( // full table
+        <thead className="border-b-2 border-blueprint-accent-dark" {...props} />
+    ),
+    tr: (props: any) => ( // table row
+        <tr className="border-b border-blueprint-muted" {...props} />
+    ),
+    th: (props: any) => ( // table header
+        <th className="px-4 py-2 text-left font-heading font-bold tracking-wide text-blueprint-line" {...props} />
+    ),
+    td: (props: any) => ( // table data
+        // tabular-nums keeps digits equal width so number columns line up nicely
+        <td className="px-4 py-2 text-blueprint-line tabular-nums" {...props} />
+    ),
+
     DrawingPanel,
     ProjectEntry,
     DemoFrame
