@@ -11,7 +11,7 @@ import { supabase } from "@/lib/supabase";
 //     },
 // ];
 
-export const revalidate = 3600; 
+export const revalidate = 3600;
 // reserved export that forces an update of the page every 1 hour (3600 seconds)
 // this is better than doing a force-dynamic export because that would make the page dynamic and not cacheable, which would be bad for performance and SEO
 

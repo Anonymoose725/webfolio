@@ -52,8 +52,8 @@ export default function Page() {
                             Monteal, Canada
                         </span>
                         <Image
-                            src="/images/handsome_photo.jpg"
-                            alt="Shot on my 35mm Konica"
+                            src="/images/ethan_headshot.jpg"
+                            alt="Ethan Gat"
                             height={320}
                             width={320}
                             priority
