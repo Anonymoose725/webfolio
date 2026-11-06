@@ -69,6 +69,14 @@ export const mdxComponents = {
         // tabular-nums keeps digits equal width so number columns line up nicely
         <td className="px-4 py-2 text-blueprint-line tabular-nums" {...props} />
     ),
+    img: (props: any) => (
+        <img
+            className="my-8 w-full rounded-lg border border-blueprint-muted"
+            loading="lazy"
+            alt={props.alt ?? ""}
+            {...props}
+        />
+    ),
 
     DrawingPanel,
     ProjectEntry,
