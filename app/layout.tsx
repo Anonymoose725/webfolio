@@ -4,6 +4,7 @@ import "./globals.css";
 import "katex/dist/katex.min.css";
 import { Lora, Inter } from "next/font/google";
 import { Home } from "lucide-react";
+import { Analytics } from "@vercel/analytics/next";
 
 const lora = Lora({
     variable: "--font-lora",
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     </div>
                 </nav>
                 <main>{children}</main>
+                <Analytics />
             </body>
         </html>
     );
