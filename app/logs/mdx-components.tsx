@@ -73,7 +73,7 @@ export const mdxComponents = {
     img: (props: any) => (
         <img
             className="mx-auto my-8 max-w-full rounded-lg border border-blueprint-muted"
-            loading="lazy"
+            loading="eager"
             alt={props.alt ?? ""}
             {...props}
         />

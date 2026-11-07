@@ -1,0 +1,98 @@
+---
+title: Logistic Regression for Classification
+date: 2026-11-06
+summary: Applying a from-scratch logistic regression model to classify emails as spam
+---
+
+My groupmates and I sought to investigate the effectiveness of a from-scratch logistic regression model for classifying
+emails from the [UCI Spambase dataset](https://doi.org/10.24432/C53G6X) as spam or not. We also explored implementations of
+L1 and L2 regularization and hyperparameter selection via cross-validation.
+
+The work was a project submitted through our course at McGill University, COMP551: Applied Machine Learning.
+
+# Dataset
+
+We used the UCI spambase dataset, which contains 4601 emails with 57 features respectively.
+
+These features describe characteristics of each instance, including:
+
+1. Word frequencies: The percentage of words matching particular terms, such as free, money, and remove.
+2. Character frequencies: The percentage of characters matching symbols such as $, !, and #.
+3. Capitalization patterns: Statistics describing uninterrupted sequences of capital letters.
+
+Each email has a binary label, either 1 for spam and 0 for non-spam.
+
+The goal is to learn a logistic function with parameters estimating the probability that an email is spam or not.
+
+# Logistic Regression
+
+Logistic regression estimates the probability of an input being in the positive class with the sigmoid function:
+
+$$
+P(Y=1\mid x)=\sigma(w^\top x + b)
+=\frac{1}{1+e^-(w^\top x + b)}
+$$
+
+The model is trained by minimizing cross-entropy for binary classification:
+
+$$
+L(w,b)=-\sum_{i=1}^{N}
+\left[
+y_i\log(\hat y_i)
++(1-y_i)\log(1-\hat y_i)
+\right]
+$$
+
+Organizing into classes, we seperated the classifier and gradient descent so that instances of each could be made for 
+testing and application purposes.
+
+- `LogisticRegression`: Maintains model weights, defines a gradient used to train, and computes predictions
+- `StochasticGradientDescent`: Handles the optimization by minimizing the loss function through mini-batches, variable
+learning rates, and epochs.
+
+## Cross-validation
+
+We utilised 5-fold cross-validation across the training set to choose the best hyperparameters for a best performing
+configuration. For each configuration, the training set was split into 5 folds, with one as validation and remaining 4
+for training. A key detail is that standardization was redone within each fold, independently. This helped to prevent
+any data leakage which would have destroyed results during training.
+
+<Figure
+    src="/images/spambase_images/heatmap1.png"
+    alt="Heatmap with init_scale=0.0"
+    caption=""
+/>
+<Figure
+    src="/images/spambase_images/heatmap2.png"
+    alt="Heatmap with init_scale=0.1"
+    caption=""
+/>
+<Figure
+    src="/images/spambase_images/heatmap3.png"
+    alt="Heatmap with init_scale=1.0"
+    caption="Figure 1. Heatmap analysis of cross-entropy loss across different configurations. A brighter block indicates a better result."
+/>
+
+## Regularization
+
+We first implemented L2 ridge regression. This is a weight decay on the parameters during gradient steps, sending weights
+near but not exactly to zero.
+
+Afterwards, we compared to scikit-learn's established L1 lasso regression which sends results exactly to zero.
+
+<Figure
+    src="/images/spambase_images/regpathL1.png"
+    alt="Lasso regulariaztion path."
+    caption="Figure 2. L1 (lasso) regularization sends weights to exactly zero (weight decay). This introduces some bias at the
+    benefit of large reductions in model-dataset variance, greatly reducing overfitting."
+/>
+
+## Results and what was learned
+
+Experimentation demonstrated bias-variance balance at heart: a stronger regularization produced a simpler model given
+additional bias, resolving overfitting, whereas weaker regularization improved upon performance of a validation set at
+the expense of sparsity.
+
+This tells us about real-world usage! A model in application isn't just about maximizing accuracy, since a dataset features
+noise and bias and inherently will never be perfect nor representative of a true population. However, generalizing a model
+despite an apparent decrease in dataset test performance means the model is more applicable to that target true population.

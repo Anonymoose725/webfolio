@@ -15,6 +15,7 @@ export function Figure({ src, alt, caption }: FigureProps) {
                 width={1200}
                 height={675}
                 className="w-full h-auto rounded-lg border border-blueprint-muted"
+                loading="eager"
             />
             <figcaption className="mt-3 text-center text-sm text-blueprint-muted">
                 {caption}

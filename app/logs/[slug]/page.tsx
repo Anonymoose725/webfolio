@@ -1,12 +1,12 @@
 import { Suspense } from 'react'; // loading skeleton component to display until children are rendered
 import { MDXRemote } from 'next-mdx-remote-client/rsc';
 import rehypePrettyCode from 'rehype-pretty-code';
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
 import { getPostSource, getPostMeta } from '@/lib/posts';
 import { mdxComponents } from '../mdx-components';
 import { DimensionDivider } from '@/app/ui/dimension-divider';
 import remarkGfm from 'remark-gfm';
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 
 
 export function MDXError({ error }: { error: Error }) {
@@ -43,7 +43,7 @@ export default async function LogPost({ params }: { params: Promise<{ slug: stri
                     onError={MDXError}
                     options={{
                         mdxOptions: {
-                            remarkPlugins: [remarkGfm, remarkMath],// for parsing |, - style tables
+                            remarkPlugins: [remarkMath, remarkGfm],// for parsing |, - style tables
                             rehypePlugins: [[rehypePrettyCode, { theme: 'github-dark' }], rehypeKatex] // necessasry javascript options for MDXremote
                             // double array -> outer array is list of plugs, inner is rehype options
                         }

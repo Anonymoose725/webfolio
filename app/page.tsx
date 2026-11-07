@@ -36,7 +36,7 @@ export default function Page() {
                             ETHAN GAT
                         </h1>
                         <p className="mb-8 text-lg text-blueprint-muted">
-                            Systems-centric CS student. I build things from start to finish, problem to solution.
+                            ML and Tooling oriented CS student. I build things from start to finish, own solutions, and follow my interests.
                         </p>
                         <Link
                             href="/projects"
@@ -67,7 +67,7 @@ export default function Page() {
             <section className="mx-auto max-w-2xl px-8 py-8">
                 <DrawingPanel label="NOTES">
                     <p>
-                        Third-year CS student focused on algorithms, developer tools, and project-based work.
+                        Third-year CS student focused on algorithms, machine learning, developer tools, and project-based work.
                     </p>
                 </DrawingPanel>
             </section>
