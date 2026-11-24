@@ -3,6 +3,7 @@ import { DrawingPanel } from "../ui/drawing-panel";
 import { ProjectEntry } from "../ui/project-entry";
 import { DemoFrame } from "../ui/demoFrame";
 import { Figure } from '../ui/figure';
+import { PdfWindow } from '../ui/pdf-window'
 import Link from "next/link";
 
 
@@ -82,6 +83,7 @@ export const mdxComponents = {
     DrawingPanel,
     ProjectEntry,
     DemoFrame,
-    Figure
+    Figure,
+    PdfWindow
 };
 

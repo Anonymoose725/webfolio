@@ -25,7 +25,7 @@ export default async function LogPost({ params }: { params: Promise<{ slug: stri
     // console.log('MDX source:', src);
 
     return (
-        <article className="mx-auto max-w-prose px-8 py-16 text-blueprint-line">
+        <article className="mx-auto max-w-3xl px-8 py-16 text-blueprint-line">
 
             {/* header to render when in each log post */}
             <DimensionDivider label="Log Entry" />
